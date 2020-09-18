@@ -1,11 +1,12 @@
 import { Button, Col, FormGroup, Input, ListGroup, ListGroupItem, Nav, NavItem, NavLink, Row, TabContent, TabPane, UncontrolledDropdown } from "reactstrap";
 import React, { useContext, useEffect, useState } from "react";
 
-import NewContext from "./context";
-import classnames from "classnames";
-import { isEmpty } from 'lodash';
+import NewContext   from "./context";
+import classnames   from "classnames";
+import { isEmpty }  from 'lodash';
 
 function Home(props) {
+
   const repoType = {
     USER: "user",
     STARRED: "starred"
@@ -28,7 +29,6 @@ function Home(props) {
   }, [userData]);
   
   const getRepoList = (tabName) => {
-    // if (!isEmpty(userData.login) && userData.login == "undefined") {
       const url =
         tabName === repoType.USER
           ? `https://api.github.com/users/${userData.login}/repos`
@@ -88,6 +88,7 @@ function Home(props) {
   }
   
   return (
+    <>
     <div className="mt-2">
       <h2 className="mb-3 mt-3">Welcome {userData.login}</h2>
       <Button
@@ -119,7 +120,8 @@ function Home(props) {
         <Col>
           <Nav tabs>
             <NavItem>
-              <NavLink
+                <NavLink
+                href="#"
                 className={classnames({ active: activeTab === "1" })}
                 onClick={() => {
                   toggle("1");
@@ -130,7 +132,8 @@ function Home(props) {
               </NavLink>
             </NavItem>
             <NavItem>
-              <NavLink
+                <NavLink
+                href="#"
                 className={classnames({ active: activeTab === "2" })}
                 onClick={() => {
                   toggle("2");
@@ -190,7 +193,8 @@ function Home(props) {
           </TabContent>
         </Col>
       </Row>
-    </div>
+        </div>
+      </>
   );
 }
 export default Home;
