@@ -2,21 +2,17 @@ import { Redirect, Route, Switch }    from 'react-router-dom';
 
 import Home from './component/home';
 import Login from './component/login';
+import PrivateRoute from "./privateRoute";
 import React from 'react';
-import { isEmpty } from 'lodash';
+import Starred from './component/starred';
 
 function App() {
-  const token = localStorage.getItem('token');
-
   return (
     <div>
       <Switch>
         <Route exact path="/" component={Login} />
-        {!isEmpty(token) && token ?
-          <Route exact path='/home' component={Home} />
-          :
-          <Redirect to="/" />
-        }
+        <PrivateRoute exact path="/home" component={Home} />
+        <PrivateRoute exact path="/starred" component={Starred} />
       </Switch>
     </div>
   );
