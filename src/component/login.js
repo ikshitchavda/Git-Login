@@ -6,7 +6,7 @@ import { initialState, reducer }        from "./store";
 import GitHubLogin  from 'react-github-login';
 import Home         from './home';
 import NewContext   from './context';
-import { isEmpty }                      from 'lodash';
+import { isEmpty }  from 'lodash';
 
 const CLIENT_ID = "22f71f00213e8ab8d23e";
 const token = localStorage.getItem("token");
@@ -16,7 +16,10 @@ function Login() {
   const [state, dispatch] = useReducer(reducer, initialState);
   const [isRedirect, setIsRedirect] = useState(false);
 
-  const logout = () => {setIsRedirect(!isRedirect)}
+  const logout = () => {
+    console.log("in")
+    setIsRedirect(!isRedirect)
+  }
 
   useEffect(() => {
     if (token && !isEmpty(token)) getUserData(token);
@@ -44,7 +47,7 @@ function Login() {
 
    const getStarredRepoList = async (name) => {
      const userStarredRepo = await getStarredList(name);
-      if (!userStarredRepo.message && name) {
+      if (userStarredRepo && !userStarredRepo.message && name) {
         dispatch({ type: "get_starred_repo", starredRepo: userStarredRepo });
       } else {
         dispatch({ type: "error", error: userStarredRepo && userStarredRepo.message });
@@ -55,6 +58,7 @@ function Login() {
   const onFailure = (response) => console.error(response);
   const onSuccess = async (response) => {
     if (response && response.code) {
+      console.log("onSuccess -> response.code", response.code);
       const token = await getAcessToken(response.code);
       dispatch({ type: "get_access_token", token: token });
       await getUserData(token);
@@ -73,6 +77,7 @@ function Login() {
               clientId={CLIENT_ID}
               onSuccess={onSuccess}
               onFailure={onFailure}
+              scope={"repo admin gist user write read delete workflow"}
               redirectUri="http://localhost:3000"
             />
           </div>

@@ -1,15 +1,16 @@
 import {
+  Badge,
   Col,
   FormGroup,
   Input,
   ListGroup,
-  ListGroupItem
+  ListGroupItem,
 } from "reactstrap";
 import React, { useContext, useState } from "react";
+import { addStarredRepo, removeStarredRepo, searchBox } from "./action";
 
 import NewContext       from "./context";
 import { isEmpty }      from "lodash";
-import { searchBox }    from "./action";
 
 function Starred() {
   const { state, dispatch } = useContext(NewContext);
@@ -24,12 +25,23 @@ function Starred() {
            setSearchVal();
            setNoDataFound(!noDataFound);
          } else if (res && !res.message) {
-           setSearchVal(res);
+           setSearchVal(res.items);
          }
       })
       }, 3000);
     
   }
+  
+  const addStart = async(author, repo) => {
+    await addStarredRepo(author, repo, state.token);
+  }
+
+  const removeStart = async (author, repo) => {
+    await removeStarredRepo(author, repo, state.token);
+  };
+
+
+
     return (
       <>
         <FormGroup className="mt-3 ml-3 col-md-3">
@@ -41,11 +53,23 @@ function Starred() {
             onChange={(e) => handleSearch(e.target.value)}
           />
           <ListGroup flush>
-            {!isEmpty(searchVal) && (
-              <ListGroupItem tag="a" href={searchVal.html_url}>
-                {searchVal.name}
-              </ListGroupItem>
-            )}
+            {!isEmpty(searchVal) &&
+              searchVal.map((el) => {
+                return (
+                  // tag="a" href={el.html_url}
+                  <ListGroupItem>
+                    {el.name}
+                    <Badge
+                      className="ml-2 mr-2"
+                      href="#"
+                      pill
+                      onClick={() => addStart(el.owner.login, el.name)}
+                    >
+                      Add Star
+                    </Badge>
+                  </ListGroupItem>
+                );
+              })}
             {noDataFound && <ListGroupItem>No Data Found</ListGroupItem>}
           </ListGroup>
         </FormGroup>
@@ -60,6 +84,9 @@ function Starred() {
                 return (
                   <ListGroupItem key={el.id} tag="a" href={el.html_url}>
                     {el.name}
+                    <Badge className="ml-2 mr-2" href="#" pill onClick={() => removeStart(el.owner.login, el.name)}>
+                      Remove Starred
+                    </Badge>
                   </ListGroupItem>
                 );
               })

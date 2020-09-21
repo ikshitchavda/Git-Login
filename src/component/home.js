@@ -23,8 +23,8 @@ function Home(props) {
           className="mr-3"
           style={{ float: "right" }}
           onClick={() => {
-            props.clickOnLogout();
             localStorage.removeItem("token");
+              props.clickOnLogout();
           }}
         >
           Logout

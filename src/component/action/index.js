@@ -1,3 +1,5 @@
+import { isEmpty } from "lodash";
+
 const myHeaders = new Headers();
 const formData = new FormData();
 
@@ -31,6 +33,7 @@ export const getUser = async(token) => {
    if (token) {
      var myHeaders = new Headers();
      myHeaders.append("Authorization", `Bearer ${token}`);
+     
 
      var requestOptions = {
        method: "GET",
@@ -52,17 +55,47 @@ export const getUserList = async(name) => {
 };
 
 export const getStarredList = async (name) => {
-  return await fetch(`https://api.github.com/users/${name}/starred`)
+    return fetch(`https://api.github.com/users/${name}/starred`)
     .then((response) => response.json())
     .then((result) => result)
-    .catch((error) => console.log("error", error));
+    .catch((error) => console.log("error", error));  
+  
 }
 
 export const searchBox = async (searchVal, logUserName) => {
-      return fetch(`https://api.github.com/repos/${logUserName}/${searchVal}`)
+  // return fetch(`https://api.github.com/repos/${searchVal}`)
+  return fetch(`https://api.github.com/search/repositories?q=${searchVal}&per_page=25`)
         .then((response) => response.json())
         .then((result) => result)
         .catch((error) => console.log("error", error));
+};
+
+export const addStarredRepo = async (author, repo, token) => {
+  if (isEmpty(token)) token = localStorage.getItem("token");
+      var myHeaders = new Headers();
+      myHeaders.append("Authorization", `Bearer ${token}`);
+
+    return await fetch(`https://api.github.com/user/starred/${author}/${repo}`, {
+        method: 'PUT',
+        headers: myHeaders,
+      })
+    .then(response => response.status === 204 ? setTimeout(() => { window.location.reload() }, 2000)  : response.json())
+    .then((result) => result)
+    .catch((error) => console.log("error", error));
+};
+
+export const removeStarredRepo = async (author, repo, token) => {
+  if (isEmpty(token)) token = localStorage.getItem('token');
+  
+    var myHeaders = new Headers();
+    myHeaders.append("Authorization", `Bearer ${token}`);
+
+  return await fetch(`https://api.github.com/user/starred/${author}/${repo}`, {
+    method: "DELETE",
+    headers: myHeaders,
+  })
+    .then(response => response.status === 204 ? setTimeout(() => { window.location.reload() }, 2000)  : response.json())
+    .catch((error) => console.log("error", error));
 };
 
 
