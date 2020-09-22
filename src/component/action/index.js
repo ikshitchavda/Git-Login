@@ -79,8 +79,9 @@ export const addStarredRepo = async (author, repo, token) => {
         method: 'PUT',
         headers: myHeaders,
       })
-    .then(response => response.status === 204 ? setTimeout(() => { window.location.reload() }, 2000)  : response.json())
-    .then((result) => result)
+    // .then(response => response.status === 204 ? setTimeout(() => { window.location.reload() }, 2000)  : response.json())
+    // .then(response => response.status === 204 ? setTimeout(() => { getStarredList }, 2000)  : response.json())
+    .then(result => result)
     .catch((error) => console.log("error", error));
 };
 
@@ -94,7 +95,8 @@ export const removeStarredRepo = async (author, repo, token) => {
     method: "DELETE",
     headers: myHeaders,
   })
-    .then(response => response.status === 204 ? setTimeout(() => { window.location.reload() }, 2000)  : response.json())
+    // .then(response => response.status === 204 ? setTimeout(() => { window.location.reload() }, 2000)  : response.json())
+    .then(response => response)
     .catch((error) => console.log("error", error));
 };
 

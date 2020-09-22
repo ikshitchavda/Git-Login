@@ -12,10 +12,10 @@ import { addStarredRepo, removeStarredRepo, searchBox } from "./action";
 import NewContext       from "./context";
 import { isEmpty }      from "lodash";
 
-function Starred() {
+function Starred(props) {
   const { state, dispatch } = useContext(NewContext);
   const [ noDataFound, setNoDataFound ] = useState("");
-  const [ searchVal, setSearchVal] = useState();
+  const [ searchVal, setSearchVal] = useState("");
   
   const handleSearch = async (searchValue) => {
     await setTimeout(() => {
@@ -33,13 +33,26 @@ function Starred() {
   }
   
   const addStart = async(author, repo) => {
-    await addStarredRepo(author, repo, state.token);
+    await addStarredRepo(author, repo, state.token).then((res) => {
+        if (res.status === 204) props.getStarred(state.logUserData.login);
+        setSearchVal("");
+      }
+    );
   }
 
   const removeStart = async (author, repo) => {
-    await removeStarredRepo(author, repo, state.token);
+    await removeStarredRepo(author, repo, state.token).then((res) => {
+      if (res.status === 204) props.getStarred(state.logUserData.login);
+       setSearchVal("");
+    });
   };
 
+  const style = {
+    maxHeight: "300px",
+    marginBottom: "10px",
+    overflow: "scroll",
+    WebkitOverflowScrolling: "touch",
+  };
 
 
     return (
@@ -52,7 +65,7 @@ function Starred() {
             placeholder="search git repo"
             onChange={(e) => handleSearch(e.target.value)}
           />
-          <ListGroup flush>
+          <ListGroup style={!isEmpty(searchVal) ? style : {}}>
             {!isEmpty(searchVal) &&
               searchVal.map((el) => {
                 return (
@@ -60,7 +73,7 @@ function Starred() {
                   <ListGroupItem>
                     {el.name}
                     <Badge
-                      className="ml-2 mr-2"
+                      className="ml-2 mr-2 float-right"
                       href="#"
                       pill
                       onClick={() => addStart(el.owner.login, el.name)}
@@ -70,7 +83,7 @@ function Starred() {
                   </ListGroupItem>
                 );
               })}
-            {noDataFound && <ListGroupItem>No Data Found</ListGroupItem>}
+            {noDataFound && !isEmpty(searchVal) && <ListGroupItem>No Data Found</ListGroupItem>}
           </ListGroup>
         </FormGroup>
 
@@ -84,7 +97,12 @@ function Starred() {
                 return (
                   <ListGroupItem key={el.id} tag="a" href={el.html_url}>
                     {el.name}
-                    <Badge className="ml-2 mr-2" href="#" pill onClick={() => removeStart(el.owner.login, el.name)}>
+                    <Badge
+                      className="ml-2 mr-2"
+                      href="#"
+                      pill
+                      onClick={() => removeStart(el.owner.login, el.name)}
+                    >
                       Remove Starred
                     </Badge>
                   </ListGroupItem>
