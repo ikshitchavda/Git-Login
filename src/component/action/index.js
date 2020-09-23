@@ -21,10 +21,11 @@ export const getAcessToken = async(code) => {
 
   return fetch("https://github.com/login/oauth/access_token", requestOptions)
       .then((response) => response.text())
-      .then(data => {
+    .then(data => {
+          localStorage.setItem("token", data.split("=")[1].split("&")[0]);
           const token = data.split("=")[1].split("&")[0];
-          localStorage.setItem("token", token);
-        return token;
+          console.log("getAcessToken -> token", token);
+         return token;
       }).catch((error) => console.log("error", error));
       
 }

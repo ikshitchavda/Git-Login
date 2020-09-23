@@ -33,8 +33,10 @@ function Starred(props) {
   }
   
   const addStart = async(author, repo) => {
-    await addStarredRepo(author, repo, state.token).then((res) => {
-        if (res.status === 204) props.getStarred(state.logUserData.login);
+    await addStarredRepo(author, repo, state.token).then(res => {
+      if (res.status === 204) {
+        props.getStarred(state.logUserData.login);
+      }
         setSearchVal("");
       }
     );
@@ -42,7 +44,9 @@ function Starred(props) {
 
   const removeStart = async (author, repo) => {
     await removeStarredRepo(author, repo, state.token).then((res) => {
-      if (res.status === 204) props.getStarred(state.logUserData.login);
+      if (res.status === 204) {
+        props.getStarred(state.logUserData.login);
+      } 
        setSearchVal("");
     });
   };
