@@ -1,7 +1,8 @@
 import { isEmpty } from "lodash";
+import { toast } from "react-toastify";
 
-const CLIENT_ID = "22f71f00213e8ab8d23e";
-const CLIENT_SECRET = "e2ba2d6a34a24c990417703ddbdd3fcb302fb972";
+const CLIENT_ID = process.env.REACT_APP_CLIENT_ID;
+const CLIENT_SECRET = process.env.REACT_APP_CLIENT_SECRET;
 
 export const getAcessToken = async (code) => {
   const myHeaders = new Headers();
@@ -26,7 +27,7 @@ export const getAcessToken = async (code) => {
           const token = data.split("=")[1].split("&")[0];
           console.log("getAcessToken -> token", token);
          return token;
-      }).catch((error) => console.log("error", error));
+    }).catch(error => toast.error(error));
       
 }
 
@@ -42,9 +43,9 @@ export const getUser = async(token) => {
      };
 
     return await fetch("https://api.github.com/user", requestOptions)
-       .then((response) => response.json())
-       .then(result => result)
-       .catch((error) => console.log("error", error));
+      .then((response) => response.json())
+      .then((result) => result)
+      .catch((error) => toast.error(error));
    }
 };
 
@@ -52,14 +53,14 @@ export const getUserList = async(name) => {
   return await fetch(`https://api.github.com/users/${name}/repos`)
     .then((response) => response.json())
     .then((result) => result)
-    .catch((error) => console.log("error", error));
+    .catch((error) => toast.error(error));
 };
 
 export const getStarredList = async (name) => {
     return fetch(`https://api.github.com/users/${name}/starred`)
-    .then((response) => response.json())
-    .then((result) => result)
-    .catch((error) => console.log("error", error));  
+      .then((response) => response.json())
+      .then((result) => result)
+      .catch((error) => toast.error(error));  
   
 }
 
@@ -67,7 +68,7 @@ export const searchBox = async (searchVal, logUserName) => {
   return fetch(`https://api.github.com/search/repositories?q=${searchVal}&per_page=25`)
         .then((response) => response.json())
         .then((result) => result)
-        .catch((error) => console.log("error", error));
+        .catch(error => toast.error(error));
 };
 
 export const addStarredRepo = async (author, repo, token) => {
@@ -80,7 +81,7 @@ export const addStarredRepo = async (author, repo, token) => {
         headers: myHeaders,
       })
     .then(result => result)
-    .catch((error) => console.log("error", error));
+    .catch(error => toast.error(error));
 };
 
 export const removeStarredRepo = async (author, repo, token) => {
@@ -94,7 +95,7 @@ export const removeStarredRepo = async (author, repo, token) => {
     headers: myHeaders,
   })
     .then(response => response)
-    .catch((error) => console.log("error", error));
+    .catch(error => toast.error(error));
 };
 
 

@@ -7,7 +7,7 @@ import {
   ListGroupItem,
 } from "reactstrap";
 import React, { useContext, useState } from "react";
-import { addStarredRepo, removeStarredRepo, searchBox } from "./action";
+import { addStarredRepo, removeStarredRepo, searchBox } from "../action";
 
 import NewContext       from "./context";
 import { isEmpty }      from "lodash";
