@@ -1,12 +1,12 @@
 import { isEmpty } from "lodash";
 
-const myHeaders = new Headers();
-const formData = new FormData();
-
 const CLIENT_ID = "22f71f00213e8ab8d23e";
 const CLIENT_SECRET = "e2ba2d6a34a24c990417703ddbdd3fcb302fb972";
 
-export const getAcessToken = async(code) => {
+export const getAcessToken = async (code) => {
+  const myHeaders = new Headers();
+  const formData = new FormData();
+
   myHeaders.append("Access-Control-Allow-Origin", "*");
   myHeaders.append("Content-Type", "application/json");
 
@@ -64,7 +64,6 @@ export const getStarredList = async (name) => {
 }
 
 export const searchBox = async (searchVal, logUserName) => {
-  // return fetch(`https://api.github.com/repos/${searchVal}`)
   return fetch(`https://api.github.com/search/repositories?q=${searchVal}&per_page=25`)
         .then((response) => response.json())
         .then((result) => result)
@@ -80,8 +79,6 @@ export const addStarredRepo = async (author, repo, token) => {
         method: 'PUT',
         headers: myHeaders,
       })
-    // .then(response => response.status === 204 ? setTimeout(() => { window.location.reload() }, 2000)  : response.json())
-    // .then(response => response.status === 204 ? setTimeout(() => { getStarredList }, 2000)  : response.json())
     .then(result => result)
     .catch((error) => console.log("error", error));
 };
@@ -96,7 +93,6 @@ export const removeStarredRepo = async (author, repo, token) => {
     method: "DELETE",
     headers: myHeaders,
   })
-    // .then(response => response.status === 204 ? setTimeout(() => { window.location.reload() }, 2000)  : response.json())
     .then(response => response)
     .catch((error) => console.log("error", error));
 };

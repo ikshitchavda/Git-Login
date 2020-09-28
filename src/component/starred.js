@@ -13,7 +13,7 @@ import NewContext       from "./context";
 import { isEmpty }      from "lodash";
 
 function Starred(props) {
-  const { state, dispatch } = useContext(NewContext);
+  const { state } = useContext(NewContext);
   const [ noDataFound, setNoDataFound ] = useState("");
   const [ searchVal, setSearchVal] = useState("");
   
@@ -73,7 +73,6 @@ function Starred(props) {
             {!isEmpty(searchVal) &&
               searchVal.map((el) => {
                 return (
-                  // tag="a" href={el.html_url}
                   <ListGroupItem>
                     {el.name}
                     <Badge

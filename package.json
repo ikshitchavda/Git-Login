@@ -6,6 +6,8 @@
     "axios": "^0.20.0",
     "bootstrap": "^4.5.2",
     "cra-template": "1.0.3",
+    "env-cmd": "^10.1.0",
+    "eslint-config-airbnb": "^18.2.0",
     "git": "^0.1.5",
     "lodash": "^4.17.20",
     "react": "^16.13.1",
@@ -13,11 +15,12 @@
     "react-github-login": "^1.0.3",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",
-    "reactstrap": "^8.5.1"
+    "reactstrap": "^8.5.1",
+    "webpack-cli": "^3.3.12"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "env react-scripts start",
+    "build": "env react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

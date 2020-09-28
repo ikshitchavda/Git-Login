@@ -1,7 +1,7 @@
 import GuestRoute from "./component/guestroute";
 import Home from './component/home'
 import Login from './component/login';
-import PrivateRoute from "./privateRoute";
+import PrivateRoute from "./component/privateRoute";
 import React from "react";
 import { Switch } from "react-router-dom";
 

@@ -1,8 +1,8 @@
 import React, { useReducer }   from 'react';
-import { initialState, reducer }          from "./store";
+import { initialState, reducer } from "../store";
 
 import GitHubLogin  from 'react-github-login';
-import { getAcessToken }                  from "./action";
+import { getAcessToken } from "../action";
 import { useHistory } from "react-router-dom";
 
 const CLIENT_ID = "22f71f00213e8ab8d23e";

@@ -1,8 +1,8 @@
 import React, { useReducer } from "react";
 import { Redirect, Route } from "react-router-dom";
-import { initialState, reducer } from "./component/store";
+import { initialState, reducer } from "../store";
 
-import NewContext from "../src/component/context";
+import NewContext from "./context";
 
 function PrivateRoute({ component: Component, ...rest }) {
   const [state, dispatch] = useReducer(reducer, initialState);

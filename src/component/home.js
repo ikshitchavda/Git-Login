@@ -1,12 +1,12 @@
 import { Button, Col, ListGroup, ListGroupItem, Nav, NavItem, NavLink, Row, TabContent, TabPane } from "reactstrap";
 import React, { useContext, useEffect, useState } from "react";
-import { Redirect, Route, withRouter } from "react-router-dom";
-import { get, isEmpty }     from 'lodash';
-import { getStarredList, getUser, getUserList } from "./action";
+import { get, isEmpty } from 'lodash';
+import { getStarredList, getUser, getUserList } from "../action";
 
 import NewContext      from "./context";
 import Starred         from './starred';
-import classnames from "classnames";
+import classnames      from "classnames";
+import { withRouter }  from "react-router-dom";
 
 const token = localStorage.getItem("token");
 
@@ -87,7 +87,7 @@ function Home(props) {
             </Nav>
             <TabContent activeTab={activeTab}>
               <TabPane tabId="1">
-                {activeTab == "1" && (
+                {activeTab === "1" && (
                   <Row>
                     <Col sm="12">
                       <ListGroup>
